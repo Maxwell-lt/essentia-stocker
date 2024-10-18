@@ -71,36 +71,39 @@ for i = 2, 54 do
     dc_slots[name] = i
 end
 
--- single run to test
-needed_slots = {}
-signal = redstone.getBundledInput("right")
-for i = 0, 15 do
-    if bit.band(signal, bit.blshift(1, i)) == 0 then
-        needed_slots[#needed_slots+1] = dc_slots[aspects[i + 1]]
+while true do
+    needed_slots = {}
+    signal = redstone.getBundledInput("right")
+    for i = 0, 15 do
+        if bit.band(signal, bit.blshift(1, i)) == 0 then
+            needed_slots[#needed_slots+1] = dc_slots[aspects[i + 1]]
+        end
     end
-end
-signal = redstone.getBundledInput("back")
-for i = 0, 15 do
-    if bit.band(signal, bit.blshift(1, i)) == 0 then
-        needed_slots[#needed_slots+1] = dc_slots[aspects[i + 17]]
+    signal = redstone.getBundledInput("back")
+    for i = 0, 15 do
+        if bit.band(signal, bit.blshift(1, i)) == 0 then
+            needed_slots[#needed_slots+1] = dc_slots[aspects[i + 17]]
+        end
     end
-end
-signal = redstone.getBundledInput("bottom")
-for i = 0, 15 do
-    if bit.band(signal, bit.blshift(1, i)) == 0 then
-        needed_slots[#needed_slots+1] = dc_slots[aspects[i + 33]]
+    signal = redstone.getBundledInput("bottom")
+    for i = 0, 15 do
+        if bit.band(signal, bit.blshift(1, i)) == 0 then
+            needed_slots[#needed_slots+1] = dc_slots[aspects[i + 33]]
+        end
     end
-end
-signal = redstone.getBundledInput("left")
-for i = 0, 4 do
-    if bit.band(signal, bit.blshift(1, i)) == 0 then
-        needed_slots[#needed_slots+1] = dc_slots[aspects[i + 49]]
+    signal = redstone.getBundledInput("left")
+    for i = 0, 4 do
+        if bit.band(signal, bit.blshift(1, i)) == 0 then
+            needed_slots[#needed_slots+1] = dc_slots[aspects[i + 49]]
+        end
     end
-end
 
-for i, slot in ipairs(needed_slots) do
-    moved = 0
-    while moved == 0 do
-        moved = dc.pushItems(smeltery_location, slot, 1)
+    print("Moving " .. #needed_slots .. " Vis Pods")
+
+    for i, slot in ipairs(needed_slots) do
+        moved = 0
+        while moved == 0 do
+            moved = dc.pushItems(smeltery_location, slot, 1)
+        end
     end
 end
