@@ -70,12 +70,12 @@ end
 while true do
     needed_slots = {}
     for i = 0, 52 do
-        if peripheral.call(rs_name .. (rs_start + i), "getAnalogInput", rs_side) < 14 do
+        if peripheral.call(rs_name .. (rs_start + i), "getAnalogInput", rs_side) < 14 then
             needed_slots[#needed_slots+1] = dc_slots[aspects[i + 1]]
         end
     end
 
-    if #needed_slots > 0 do
+    if #needed_slots > 0 then
         print("Moving " .. #needed_slots .. " Vis Pods")
         while #(peripheral.call(smeltery_location, "list")) > 0 do
             sleep(5)
