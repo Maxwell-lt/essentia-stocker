@@ -56,13 +56,9 @@ aspects = {
 
 dc = peripheral.wrap("storagedrawers:controller_5")
 smeltery_location = "xu2:tilelargishchest_2"
-
-jar_row_order = {
-    "right",
-    "back",
-    "bottom",
-    "left"
-}
+rs_name = "redstone_integrator_"
+rs_start = 24
+rs_side = "east"
 
 dc_slots = {}
 for i = 2, 54 do
@@ -73,37 +69,25 @@ end
 
 while true do
     needed_slots = {}
-    signal = redstone.getBundledInput("right")
-    for i = 0, 15 do
-        if bit.band(signal, bit.blshift(1, i)) == 0 then
+    for i = 0, 52 do
+        if peripheral.call(rs_name .. (rs_start + i), "getAnalogInput", rs_side) < 14 do
             needed_slots[#needed_slots+1] = dc_slots[aspects[i + 1]]
         end
     end
-    signal = redstone.getBundledInput("back")
-    for i = 0, 15 do
-        if bit.band(signal, bit.blshift(1, i)) == 0 then
-            needed_slots[#needed_slots+1] = dc_slots[aspects[i + 17]]
-        end
-    end
-    signal = redstone.getBundledInput("bottom")
-    for i = 0, 15 do
-        if bit.band(signal, bit.blshift(1, i)) == 0 then
-            needed_slots[#needed_slots+1] = dc_slots[aspects[i + 33]]
-        end
-    end
-    signal = redstone.getBundledInput("left")
-    for i = 0, 4 do
-        if bit.band(signal, bit.blshift(1, i)) == 0 then
-            needed_slots[#needed_slots+1] = dc_slots[aspects[i + 49]]
-        end
-    end
 
-    print("Moving " .. #needed_slots .. " Vis Pods")
-
-    for i, slot in ipairs(needed_slots) do
-        moved = 0
-        while moved == 0 do
-            moved = dc.pushItems(smeltery_location, slot, 1)
+    if #needed_slots > 0 do
+        print("Moving " .. #needed_slots .. " Vis Pods")
+        while #(peripheral.call(smeltery_location, "list")) > 0 do
+            sleep(5)
         end
+        for i, slot in ipairs(needed_slots) do
+            moved = 0
+            while moved == 0 do
+                moved = dc.pushItems(smeltery_location, slot, 1)
+            end
+        end
+    else
+        print("All jars full, sleeping for 600t")
+        sleep(600)
     end
 end
