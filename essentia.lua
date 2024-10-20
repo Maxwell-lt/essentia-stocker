@@ -55,10 +55,10 @@ aspects = {
 }
 
 dc = peripheral.wrap("storagedrawers:controller_5")
-smeltery_location = "xu2:tilelargishchest_2"
+smeltery_location = "xu2:tilelargishchest_4"
 rs_name = "redstone_integrator_"
-rs_start = 24
-rs_side = "east"
+rs_start = 77
+rs_side = "west"
 
 dc_slots = {}
 for i = 2, 54 do
